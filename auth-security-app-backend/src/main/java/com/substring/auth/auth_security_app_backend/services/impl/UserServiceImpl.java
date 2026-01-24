@@ -10,6 +10,7 @@ import com.substring.auth.auth_security_app_backend.services.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -18,7 +19,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     @Override
@@ -34,7 +35,7 @@ public class UserServiceImpl implements UserService {
 
         User user = modelMapper.map(userDto, User.class);
         user.setProvider(user.getProvider()!=null ? user.getProvider() : Provider.LOCAL);
-
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         //Here role to be assigned to the new user for the authorization
         //TODO:
         userRepository.save(user);
