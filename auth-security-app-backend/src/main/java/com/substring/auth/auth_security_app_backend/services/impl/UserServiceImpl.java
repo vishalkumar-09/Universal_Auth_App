@@ -19,7 +19,6 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     @Override
@@ -35,7 +34,7 @@ public class UserServiceImpl implements UserService {
 
         User user = modelMapper.map(userDto, User.class);
         user.setProvider(user.getProvider()!=null ? user.getProvider() : Provider.LOCAL);
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setPassword(userDto.getPassword());
         //Here role to be assigned to the new user for the authorization
         //TODO:
         userRepository.save(user);
