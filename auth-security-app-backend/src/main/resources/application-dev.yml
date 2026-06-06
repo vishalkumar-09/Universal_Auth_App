@@ -27,7 +27,17 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: true
-
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID:test-client-id}
+            client-secret: ${GOOGLE_CLIENT_SECRET:test-client-secret}
+            scope:
+              - email
+              - profile
+              - openid
 security:
   jwt:
     secret: ${JWT_SECRET:jFfVhbW59aCk5pDhopplngKGwK646tHWwsDG9OMQW86MIvRzOLokdSTutVk5VpiUBrywbWjH1xKx0fG2CT3Hg5}
